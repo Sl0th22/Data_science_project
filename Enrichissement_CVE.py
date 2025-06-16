@@ -1,9 +1,13 @@
 import requests
 import time
+import os
+import json
 from Extraction_CVE import extraction_cve
 
 def Enrichissement_MITRE_API(cve_list, delay=0):
     enriched = []
+    dossier = "data_Etape1/Mitre"
+    os.makedirs(dossier, exist_ok=True)
     for cve_id in cve_list:
         url = f"https://cveawg.mitre.org/api/cve/{cve_id}"
         try:
@@ -44,18 +48,27 @@ def Enrichissement_MITRE_API(cve_list, delay=0):
                     "versions": versions
                 })
 
-            enriched.append({
+            result = {
                 "cve": cve_id,
                 "description": description,
                 "cvss_score": cvss_score,
                 "cwe": cwe,
                 "cwe_desc": cwe_desc,
                 "produits": produits
-            })
+            }
+            enriched.append(result)
+
+            with open(os.path.join(dossier, f"{cve_id}.json"), "w", encoding="utf-8") as f:
+                json.dump(result, f, ensure_ascii=False, indent=4)
+
         except Exception as e:
             print(f"Erreur pour {cve_id}: {e}")
+        time.sleep(delay)
     return enriched
 
 extracted_cves = extraction_cve()
 enriched_data = Enrichissement_MITRE_API(extracted_cves)
 print(enriched_data[0])
+
+
+
