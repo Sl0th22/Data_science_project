@@ -4,7 +4,7 @@ import os
 import json
 from Extraction_CVE import extraction_cve
 
-def Enrichissement_MITRE_API(cve_list, delay=0):
+def Enrichissement_MITRE_API(cve_list, delay=2):
     enriched = []
     dossier = "data_Etape1/Mitre"
     os.makedirs(dossier, exist_ok=True)
@@ -66,9 +66,43 @@ def Enrichissement_MITRE_API(cve_list, delay=0):
         time.sleep(delay)
     return enriched
 
+def enrichissement_first_api(cve_list, delay=2):
+    import requests
+    import os
+    import json
+
+    dossier = "data_Etape1/First"
+    os.makedirs(dossier, exist_ok=True)
+    enriched = []
+    for cve_id in cve_list:
+        url = f"https://api.first.org/data/v1/epss?cve={cve_id}"
+        try:
+            response = requests.get(url, timeout=10)
+            data = response.json()
+            epss_data = data.get("data", [])
+            epss_score = "Non disponible"
+            if epss_data:
+                epss_score = epss_data[0].get("epss", "Non disponible")
+            else:
+                print(f"Aucun score EPSS trouvé pour {cve_id}")
+
+            result = {
+                "cve": cve_id,
+                "epss_score": epss_score
+            }
+            enriched.append(result)
+
+            with open(os.path.join(dossier, f"{cve_id}.json"), "w", encoding="utf-8") as f:
+                json.dump(result, f, ensure_ascii=False, indent=4)
+
+        except Exception as e:
+            print(f"Erreur pour {cve_id}: {e}")
+        time.sleep(delay)
+    return enriched
+
 extracted_cves = extraction_cve()
-enriched_data = Enrichissement_MITRE_API(extracted_cves)
-print(enriched_data[0])
+enriched_epss = enrichissement_first_api(extracted_cves)
+print(enriched_epss[0])
 
 
 
