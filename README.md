@@ -46,12 +46,12 @@ Ce fichier sert à sécuriser vos informations d’envoi d’emails.
 
 ##  **Ordre d'exécution**
 
-1. `python Extraction_RSS.py`  
-2. `python Extraction_CVE.py`  
-3. `python Enrichissement_CVE.py`  
-4. `python consolidate.py`  
+1. `Extraction_RSS.py`  
+2. `Extraction_CVE.py`  
+3. `Enrichissement_CVE.py`  
+4. `consolidate.py`  
 5. Ouvrir et exécuter `visualisation.ipynb`  
-6. `python alertes.py` 
+6. `alertes.py` 
 
 ---
 
