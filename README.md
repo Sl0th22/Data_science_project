@@ -26,8 +26,8 @@ EMAIL_MDP=mot_de_passe_ou_token
 EMAIL_DESTINATAIRE=destinataire@example.com
 ```
 
-👉 Ce fichier sert à sécuriser vos informations d’envoi d’emails.  
-👉 **Ne commitez jamais ce fichier sur GitHub** (assurez-vous qu’il est listé dans `.gitignore`).
+Ce fichier sert à sécuriser vos informations d’envoi d’emails.  
+**Ne commitez jamais ce fichier sur GitHub** (assurez-vous qu’il est listé dans `.gitignore`).
 
 ---
 
