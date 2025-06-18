@@ -48,7 +48,6 @@ def verifier_alertes_et_envoyer_emails(dossier_alertes="./data_Etape1/alerte"):
     une_heure = timedelta(hours=1).total_seconds()
 
     alertes_envoyees = 0
-    max_alertes = 5  # Limite pour éviter de spammer
 
     for fichier in os.listdir(dossier_alertes):
         if fichier.endswith(".json"):
@@ -76,9 +75,6 @@ def verifier_alertes_et_envoyer_emails(dossier_alertes="./data_Etape1/alerte"):
                         send_email(subject=f"[ALERTE] {titre}", body=corps)
                         alertes_envoyees += 1
 
-                        if alertes_envoyees >= max_alertes:
-                            print("[!] Nombre maximal d'alertes envoyées atteint.")
-                            break
 
     if alertes_envoyees == 0:
         print("Aucune alerte critique détectée pour vos produits.")
