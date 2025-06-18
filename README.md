@@ -21,7 +21,7 @@ pip install -r requirements.txt
 Créez un fichier `.env` à la racine du projet contenant :
 
 ```
-EMAIL_EXPEDITEUR=sebxu2004@gmail.com
+EMAIL_EXPEDITEUR=votre_email@gmail.com
 EMAIL_MDP=mot_de_passe_ou_token
 EMAIL_DESTINATAIRE=destinataire@example.com
 ```
