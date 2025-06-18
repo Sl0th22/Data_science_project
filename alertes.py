@@ -4,10 +4,14 @@ import json
 import os
 import time
 from datetime import timedelta
+from dotenv import load_dotenv
 
-EXPEDITEUR = "sebxu2004@gmail.com"
-MOT_DE_PASSE = "cbib guyv ulnp blrd"
-DESTINATAIRE = "sebastien.xu@efrei.net"
+
+load_dotenv()
+
+EXPEDITEUR = os.getenv("EMAIL_EXPEDITEUR")
+MOT_DE_PASSE = os.getenv("EMAIL_MDP")
+DESTINATAIRE = os.getenv("EMAIL_DESTINATAIRE")
 
 # Liste des produits du client à surveiller
 CLIENT_PRODUCTS = ["Linux", "Apache", "Windows"]
