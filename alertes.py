@@ -2,16 +2,14 @@ import smtplib
 from email.mime.text import MIMEText
 import os
 import pandas as pd
-from dotenv import load_dotenv
 from datetime import datetime, timedelta
 import time
 import re
 
-# Chargement des variables d'environnement
-load_dotenv()
 
-EXPEDITEUR = os.getenv("EMAIL_EXPEDITEUR")
-MOT_DE_PASSE = os.getenv("EMAIL_MDP")
+EXPEDITEUR = "projetdata84@gmail.com"
+MOT_DE_PASSE = "phom vqtv uqpv pxhk"
+
 
 CLIENT_PRODUCTS = ["Linux", "Apache", "Windows", "Chrome"]
 
@@ -117,7 +115,7 @@ def run_continu(destinataire, csv_path="consolidated_cve.csv"):
         print("\nArrêt du mode continu demandé par l'utilisateur.")
 
 if __name__ == "__main__":
-    
+
     while True:
         destinataire = input("Veuillez entrer l'adresse email du destinataire : ").strip()
         if email_valide(destinataire):
