@@ -4,6 +4,7 @@ import os
 import pandas as pd
 from dotenv import load_dotenv
 from datetime import datetime, timedelta
+import time
 
 # Chargement des variables d'environnement
 load_dotenv()
@@ -12,7 +13,6 @@ EXPEDITEUR = os.getenv("EMAIL_EXPEDITEUR")
 MOT_DE_PASSE = os.getenv("EMAIL_MDP")
 DESTINATAIRE = os.getenv("EMAIL_DESTINATAIRE")
 
-# Liste des produits du client à surveiller
 CLIENT_PRODUCTS = ["Linux", "Apache", "Windows", "Chrome"]
 
 def send_email(subject, body, to_email=DESTINATAIRE):
@@ -41,7 +41,7 @@ def construire_url(row):
 def verifier_alertes_et_envoyer_emails(csv_path="consolidated_cve.csv", mode="toutes"):
     if not os.path.isfile(csv_path):
         print(f"Fichier {csv_path} introuvable.")
-        return
+        return 0
 
     df = pd.read_csv(csv_path)
 
@@ -89,14 +89,37 @@ def verifier_alertes_et_envoyer_emails(csv_path="consolidated_cve.csv", mode="to
     else:
         print(f"{alertes_envoyees} alerte(s) critique(s) envoyée(s).")
 
+    return alertes_envoyees
+
+def run_continu(csv_path="consolidated_cve.csv"):
+    if not os.path.isfile(csv_path):
+        print(f"Fichier {csv_path} introuvable.")
+        return
+
+    last_mtime = os.path.getmtime(csv_path)
+
+    print("Mode continu : en attente de modifications du fichier...")
+    print("Appuyez sur Ctrl+C pour quitter le mode continu.")
+    try:
+        while True:
+            time.sleep(5)
+            current_mtime = os.path.getmtime(csv_path)
+            if current_mtime != last_mtime:
+                print("Changement détecté dans le fichier, vérification en cours...")
+                verifier_alertes_et_envoyer_emails(csv_path=csv_path, mode="toutes")
+                last_mtime = current_mtime
+    except KeyboardInterrupt:
+        print("\nArrêt du mode continu demandé par l'utilisateur.")
+
 if __name__ == "__main__":
     while True:
         choix = input(
             "\nVoulez-vous envoyer :\n"
             "1 - Toutes les alertes critiques\n"
             "2 - Seulement les alertes critiques récentes (1h)\n"
+            "3 - Exécuter en continu et envoyer dès qu'un changement est détecté\n"
             "Q - Quitter\n"
-            "Votre choix (1/2/Q) : "
+            "Votre choix (1/2/3/Q) : "
         ).strip().lower()
 
         if choix == "q":
@@ -106,6 +129,8 @@ if __name__ == "__main__":
             verifier_alertes_et_envoyer_emails(mode="recentes")
         elif choix == "1":
             verifier_alertes_et_envoyer_emails(mode="toutes")
+        elif choix == "3":
+            run_continu()
         else:
             print("Choix invalide, veuillez réessayer.")
 
