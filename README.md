@@ -57,11 +57,11 @@ Notre code fait l’extraction et l’enrichissement des bulletins de sécurité
 1. Téléchargement des données : Les scripts accèdent aux flux RSS de l’ANSSI (Extraction_RSS.py) et aux API publiques de MITRE et FIRST (Enrichissement_CVE.py) pour récupérer les bulletins, CVE, scores CVSS, CWE, EPSS et autres métadonnées.
 2. Stockage local :Toutes les informations récupérées sont enregistrées sous forme de fichiers JSON dans des sous-dossiers de data_Etape1/ :
 
-data_Etape1/avis/ et data_Etape1/alerte/ pour les bulletins ANSSI
+- data_Etape1/avis/ et data_Etape1/alerte/ pour les bulletins ANSSI
 
-data_Etape1/Mitre/ pour les données enrichies via l’API MITRE
+- data_Etape1/Mitre/ pour les données enrichies via l’API MITRE
 
-data_Etape1/First/ pour les scores EPSS via l’API FIRST
+- data_Etape1/First/ pour les scores EPSS via l’API FIRST
 
 3. Consolidation :Le script consolidate.py lit ces fichiers locaux et fusionne toutes les données en un fichier CSV unique (consolidated_cve.csv) qui est ensuite utilisé pour les alertes par email et l’analyse (visualisations et modèles machine learning).
 ---
