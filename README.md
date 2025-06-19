@@ -49,8 +49,6 @@ pip install -r requirements.txt
 │   ├── alerte/
 │   ├── Mitre/
 │   └── First/
-├── .env
-├── .gitignore
 ├── requirements.txt
 ├── README.md
 ├── Extraction_RSS.py
