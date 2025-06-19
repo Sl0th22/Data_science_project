@@ -90,10 +90,23 @@ def verifier_alertes_et_envoyer_emails(csv_path="consolidated_cve.csv", mode="to
         print(f"{alertes_envoyees} alerte(s) critique(s) envoyée(s).")
 
 if __name__ == "__main__":
-    choix = input("Voulez-vous envoyer :\n1 - Toutes les alertes critiques\n2 - Seulement les alertes critiques récentes (1h)\nVotre choix (1/2) : ").strip()
-    if choix == "2":
-        verifier_alertes_et_envoyer_emails(mode="recentes")
-    else:
-        verifier_alertes_et_envoyer_emails(mode="toutes")
+    while True:
+        choix = input(
+            "\nVoulez-vous envoyer :\n"
+            "1 - Toutes les alertes critiques\n"
+            "2 - Seulement les alertes critiques récentes (1h)\n"
+            "Q - Quitter\n"
+            "Votre choix (1/2/Q) : "
+        ).strip().lower()
 
-    print("Vérification des alertes terminée.")
+        if choix == "q":
+            print("Fin du programme.")
+            break
+        elif choix == "2":
+            verifier_alertes_et_envoyer_emails(mode="recentes")
+        elif choix == "1":
+            verifier_alertes_et_envoyer_emails(mode="toutes")
+        else:
+            print("Choix invalide, veuillez réessayer.")
+
+        print("Vérification des alertes terminée.")
