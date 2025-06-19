@@ -4,7 +4,4 @@ feedparser
 matplotlib
 seaborn
 scikit-learn
-python-dotenv
-os
-json
-time
+
