@@ -19,3 +19,5 @@ def telecharger_bulletins_rss(rss_url, dossier):
             print(f"Erreur lors de la récupération du bulletin {i.title}: {response.status_code}")
         time.sleep(2)
 
+"""telecharger_bulletins_rss("https://www.cert.ssi.gouv.fr/avis/feed", "./data_Etape1/avis")
+telecharger_bulletins_rss("https://www.cert.ssi.gouv.fr/alerte/feed", "./data_Etape1/alerte")"""

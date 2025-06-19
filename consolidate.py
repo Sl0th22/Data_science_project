@@ -113,3 +113,5 @@ def consolidate_all():
     df = df[columns]
     return df
 
+"""df = consolidate_all()
+df.to_csv("consolidated_cve.csv", index=False, encoding="utf-8")"""

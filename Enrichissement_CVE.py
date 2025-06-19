@@ -101,6 +101,9 @@ def enrichissement_first_api(cve_list, delay=2):
     return enriched
 
 
+"""
+extracted_cves = extraction_cve()
+enriched_mitre = Enrichissement_MITRE_API(extracted_cves)
+enriched_epss = enrichissement_first_api(extracted_cves)
 
-
-
+"""
