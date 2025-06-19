@@ -117,7 +117,7 @@ def run_continu(destinataire, csv_path="consolidated_cve.csv"):
         print("\nArrêt du mode continu demandé par l'utilisateur.")
 
 if __name__ == "__main__":
-    # Saisie sécurisée de l'email au démarrage
+    
     while True:
         destinataire = input("Veuillez entrer l'adresse email du destinataire : ").strip()
         if email_valide(destinataire):
