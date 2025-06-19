@@ -23,7 +23,6 @@ Créez un fichier `.env` à la racine du projet contenant :
 ```
 EMAIL_EXPEDITEUR=votre_email@gmail.com
 EMAIL_MDP=mot_de_passe_ou_token_code_appli
-EMAIL_DESTINATAIRE=destinataire@example.com
 ```
 
 Ce fichier sert à sécuriser vos informations d’envoi d’emails.  
