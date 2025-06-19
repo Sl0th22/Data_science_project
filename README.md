@@ -34,7 +34,7 @@ pip install -r requirements.txt
 Si le testeur veut lancer l'application :
 Lancer le `main.py` 
 
-Si le testeur veut lancer étape par étape, voici l'ordre:
+Si le testeur veut lancer étape par étape il faut enlever les """ """ à la fin de chaque fichier, voici l'ordre:
 Attention, le dossier data_Etape1 est essentiel pour le bon fonctionnement des programmes sans cela, il faut alors lancer depuis l'étape 1
 1. `Extraction_RSS.py`  
 2. `Extraction_CVE.py`  
