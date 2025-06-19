@@ -11,11 +11,10 @@ load_dotenv()
 
 EXPEDITEUR = os.getenv("EMAIL_EXPEDITEUR")
 MOT_DE_PASSE = os.getenv("EMAIL_MDP")
-DESTINATAIRE = os.getenv("EMAIL_DESTINATAIRE")
 
 CLIENT_PRODUCTS = ["Linux", "Apache", "Windows", "Chrome"]
 
-def send_email(subject, body, to_email=DESTINATAIRE):
+def send_email(subject, body, to_email):
     msg = MIMEText(body, "plain", "utf-8")
     msg["From"] = EXPEDITEUR
     msg["To"] = to_email
@@ -38,7 +37,7 @@ def construire_url(row):
     else:
         return "Lien non fourni"
 
-def verifier_alertes_et_envoyer_emails(csv_path="consolidated_cve.csv", mode="toutes"):
+def verifier_alertes_et_envoyer_emails(destinataire, csv_path="consolidated_cve.csv", mode="toutes"):
     if not os.path.isfile(csv_path):
         print(f"Fichier {csv_path} introuvable.")
         return 0
@@ -78,7 +77,7 @@ def verifier_alertes_et_envoyer_emails(csv_path="consolidated_cve.csv", mode="to
         )
 
         subject = f"[ALERTE] {titre}"
-        send_email(subject, corps)
+        send_email(subject, corps, destinataire)
         alertes_envoyees += 1
 
     if alertes_envoyees == 0:
@@ -91,7 +90,7 @@ def verifier_alertes_et_envoyer_emails(csv_path="consolidated_cve.csv", mode="to
 
     return alertes_envoyees
 
-def run_continu(csv_path="consolidated_cve.csv"):
+def run_continu(destinataire, csv_path="consolidated_cve.csv"):
     if not os.path.isfile(csv_path):
         print(f"Fichier {csv_path} introuvable.")
         return
@@ -106,31 +105,37 @@ def run_continu(csv_path="consolidated_cve.csv"):
             current_mtime = os.path.getmtime(csv_path)
             if current_mtime != last_mtime:
                 print("Changement détecté dans le fichier, vérification en cours...")
-                verifier_alertes_et_envoyer_emails(csv_path=csv_path, mode="toutes")
+                verifier_alertes_et_envoyer_emails(destinataire, csv_path=csv_path, mode="toutes")
                 last_mtime = current_mtime
     except KeyboardInterrupt:
         print("\nArrêt du mode continu demandé par l'utilisateur.")
 
 if __name__ == "__main__":
+    destinataire = input("Veuillez entrer l'adresse email du destinataire : ").strip()
+
     while True:
+        print(f"\nDestinataire actuel : {destinataire}")
         choix = input(
-            "\nVoulez-vous envoyer :\n"
-            "1 - Toutes les alertes critiques\n"
-            "2 - Seulement les alertes critiques récentes (1h)\n"
+            "\nQue souhaitez-vous faire ?\n"
+            "1 - Envoyer toutes les alertes critiques\n"
+            "2 - Envoyer seulement les alertes critiques récentes (1h)\n"
             "3 - Exécuter en continu et envoyer dès qu'un changement est détecté\n"
+            "4 - Changer l'adresse email du destinataire\n"
             "Q - Quitter\n"
-            "Votre choix (1/2/3/Q) : "
+            "Votre choix (1/2/3/4/Q) : "
         ).strip().lower()
 
         if choix == "q":
             print("Fin du programme.")
             break
-        elif choix == "2":
-            verifier_alertes_et_envoyer_emails(mode="recentes")
         elif choix == "1":
-            verifier_alertes_et_envoyer_emails(mode="toutes")
+            verifier_alertes_et_envoyer_emails(destinataire, mode="toutes")
+        elif choix == "2":
+            verifier_alertes_et_envoyer_emails(destinataire, mode="recentes")
         elif choix == "3":
-            run_continu()
+            run_continu(destinataire)
+        elif choix == "4":
+            destinataire = input("Nouvelle adresse email du destinataire : ").strip()
         else:
             print("Choix invalide, veuillez réessayer.")
 
