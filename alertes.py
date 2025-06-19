@@ -5,6 +5,7 @@ import pandas as pd
 from dotenv import load_dotenv
 from datetime import datetime, timedelta
 import time
+import re
 
 # Chargement des variables d'environnement
 load_dotenv()
@@ -13,6 +14,11 @@ EXPEDITEUR = os.getenv("EMAIL_EXPEDITEUR")
 MOT_DE_PASSE = os.getenv("EMAIL_MDP")
 
 CLIENT_PRODUCTS = ["Linux", "Apache", "Windows", "Chrome"]
+
+def email_valide(email):
+    # Validation simple : un @ et un . après
+    pattern = r"^[^@]+@[^@]+\.[^@]+$"
+    return re.match(pattern, email) is not None
 
 def send_email(subject, body, to_email):
     msg = MIMEText(body, "plain", "utf-8")
@@ -111,7 +117,13 @@ def run_continu(destinataire, csv_path="consolidated_cve.csv"):
         print("\nArrêt du mode continu demandé par l'utilisateur.")
 
 if __name__ == "__main__":
-    destinataire = input("Veuillez entrer l'adresse email du destinataire : ").strip()
+    # Saisie sécurisée de l'email au démarrage
+    while True:
+        destinataire = input("Veuillez entrer l'adresse email du destinataire : ").strip()
+        if email_valide(destinataire):
+            break
+        else:
+            print("Adresse email invalide. Merci de réessayer.")
 
     while True:
         print(f"\nDestinataire actuel : {destinataire}")
@@ -135,7 +147,12 @@ if __name__ == "__main__":
         elif choix == "3":
             run_continu(destinataire)
         elif choix == "4":
-            destinataire = input("Nouvelle adresse email du destinataire : ").strip()
+            while True:
+                destinataire = input("Nouvelle adresse email du destinataire : ").strip()
+                if email_valide(destinataire):
+                    break
+                else:
+                    print("Adresse email invalide. Merci de réessayer.")
         else:
             print("Choix invalide, veuillez réessayer.")
 
