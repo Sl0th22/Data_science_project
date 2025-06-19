@@ -2,34 +2,30 @@ import smtplib
 from email.mime.text import MIMEText
 import os
 import pandas as pd
-from dotenv import load_dotenv
 from datetime import datetime, timedelta
 import time
 import re
 
-# Chargement des variables d'environnement
-load_dotenv()
-
-EXPEDITEUR = os.getenv("EMAIL_EXPEDITEUR")
-MOT_DE_PASSE = os.getenv("EMAIL_MDP")
+# Identifiants de l'expéditeur
+EMAIL_EXPEDITEUR = "projetdata84@gmail.com"
+EMAIL_MDP = "phom vqtv uqpv pxhk"
 
 CLIENT_PRODUCTS = ["Linux", "Apache", "Windows", "Chrome"]
 
 def email_valide(email):
-    # Validation simple : un @ et un . après
     pattern = r"^[^@]+@[^@]+\.[^@]+$"
     return re.match(pattern, email) is not None
 
 def send_email(subject, body, to_email):
     msg = MIMEText(body, "plain", "utf-8")
-    msg["From"] = EXPEDITEUR
+    msg["From"] = EMAIL_EXPEDITEUR
     msg["To"] = to_email
     msg["Subject"] = subject
 
     try:
         with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
-            server.login(EXPEDITEUR, MOT_DE_PASSE)
-            server.sendmail(EXPEDITEUR, to_email, msg.as_string())
+            server.login(EMAIL_EXPEDITEUR, EMAIL_MDP)
+            server.sendmail(EMAIL_EXPEDITEUR, to_email, msg.as_string())
         print(f"[✓] Email envoyé à {to_email}")
     except Exception as e:
         print(f"[✗] Erreur lors de l'envoi du mail : {e}")
@@ -72,17 +68,25 @@ def verifier_alertes_et_envoyer_emails(destinataire, csv_path="consolidated_cve.
         reference = row.get("ID du bulletin (ANSSI)", "Inconnu")
         date_pub = row.get("Date de publication", "Inconnu")
         url = construire_url(row)
+        cve = row.get("Identifiant CVE", "Inconnu")
+        cvss = row.get("Score CVSS", "Non disponible")
+        epss = row.get("Score EPSS", "Non disponible")
+        produit = row.get("Produit", "Non disponible")
 
         corps = (
             f"Alerte ANSSI détectée concernant vos produits :\n\n"
             f"Titre : {titre}\n"
             f"Référence : {reference}\n"
             f"Date : {date_pub}\n"
-            f"Lien : {url}\n"
+            f"Lien : {url}\n\n"
+            f"CVE : {cve}\n"
+            f"Score CVSS : {cvss}\n"
+            f"EPSS : {epss}\n"
+            f"Produit : {produit}\n"
             f"\nVeuillez vérifier au plus vite."
         )
 
-        subject = f"[ALERTE] {titre}"
+        subject = f"[ALERTE] {titre} - {cve}"
         send_email(subject, corps, destinataire)
         alertes_envoyees += 1
 
@@ -116,8 +120,7 @@ def run_continu(destinataire, csv_path="consolidated_cve.csv"):
     except KeyboardInterrupt:
         print("\nArrêt du mode continu demandé par l'utilisateur.")
 
-if __name__ == "__main__":
-    
+"""if __name__ == "__main__":
     while True:
         destinataire = input("Veuillez entrer l'adresse email du destinataire : ").strip()
         if email_valide(destinataire):
@@ -157,3 +160,4 @@ if __name__ == "__main__":
             print("Choix invalide, veuillez réessayer.")
 
         print("Vérification des alertes terminée.")
+"""

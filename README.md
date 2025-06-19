@@ -16,20 +16,6 @@ pip install -r requirements.txt
 
 ---
 
-## **Fichier `.env`**
-
-Créez un fichier `.env` à la racine du projet contenant :
-
-```
-EMAIL_EXPEDITEUR=votre_email@gmail.com
-EMAIL_MDP=mot_de_passe_ou_token_code_appli
-```
-
-Ce fichier sert à sécuriser vos informations d’envoi d’emails.  
-**Ne commitez jamais ce fichier sur GitHub** (assurez-vous qu’il est listé dans `.gitignore`).
-
----
-
 ##  **Description des scripts**
 
 | Script | Description |
@@ -63,8 +49,6 @@ Ce fichier sert à sécuriser vos informations d’envoi d’emails.
 │   ├── alerte/
 │   ├── Mitre/
 │   └── First/
-├── .env
-├── .gitignore
 ├── requirements.txt
 ├── README.md
 ├── Extraction_RSS.py
@@ -74,11 +58,3 @@ Ce fichier sert à sécuriser vos informations d’envoi d’emails.
 ├── alertes.py
 ├── visualisation.ipynb
 ```
-
----
-
-##  **Sécurité**
-
-- **Ne publiez jamais votre `.env`**
-- Changez immédiatement vos mots de passe si un secret a été exposé
-- Un fichier `config_example.env` a été créé pour vous aider pour votre .env
