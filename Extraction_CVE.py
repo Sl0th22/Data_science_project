@@ -25,4 +25,3 @@ def extraction_cve():
                         all_cves.append(name)
     return sorted(list(set(all_cves)))
 
-extraction_cve()

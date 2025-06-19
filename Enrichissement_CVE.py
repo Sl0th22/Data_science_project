@@ -100,9 +100,7 @@ def enrichissement_first_api(cve_list, delay=2):
         time.sleep(delay)
     return enriched
 
-extracted_cves = extraction_cve()
-enriched_epss = enrichissement_first_api(extracted_cves)
-print(enriched_epss[0])
+
 
 
 

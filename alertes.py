@@ -120,7 +120,7 @@ def run_continu(destinataire, csv_path="consolidated_cve.csv"):
     except KeyboardInterrupt:
         print("\nArrêt du mode continu demandé par l'utilisateur.")
 
-if __name__ == "__main__":
+"""if __name__ == "__main__":
     while True:
         destinataire = input("Veuillez entrer l'adresse email du destinataire : ").strip()
         if email_valide(destinataire):
@@ -160,3 +160,4 @@ if __name__ == "__main__":
             print("Choix invalide, veuillez réessayer.")
 
         print("Vérification des alertes terminée.")
+"""

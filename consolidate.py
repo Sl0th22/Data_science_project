@@ -113,7 +113,3 @@ def consolidate_all():
     df = df[columns]
     return df
 
-if __name__ == "__main__":
-    df = consolidate_all()
-    print(df.loc[5])
-    df.to_csv("consolidated_cve.csv", index=False, encoding="utf-8")
