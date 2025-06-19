@@ -26,12 +26,13 @@ pip install -r requirements.txt
 | `consolidate.py` | Consolide toutes les données en un fichier CSV prêt pour la visualisation. |
 | `alertes.py` | Vérifie les alertes récentes et envoie un email si des produits critiques sont concernés. |
 | `visualisation.ipynb` | Analyse, visualisation et ML des données consolidées. |
+| `main.py`| Lancement de l'application. |
 
 ---
 
 ##  **Ordre d'exécution**
 Si le testeur veut lancer l'application :
-Lancer le main.py 
+Lancer le `main.py` 
 
 Si le testeur veut lancer étape par étape, voici l'ordre:
 Attention, le dossier data_Etape1 est essentiel pour le bon fonctionnement des programmes sans cela, il faut alors lancer depuis l'étape 1
